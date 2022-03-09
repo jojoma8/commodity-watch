@@ -116,18 +116,18 @@ const Commodities = () => {
     } else console.log("no data found");
   };
 
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: "Chart.js Line Chart",
-      },
-    },
-  };
+  // const chartOptions = {
+  //   responsive: true,
+  //   plugins: {
+  //     legend: {
+  //       position: "top",
+  //     },
+  //     title: {
+  //       display: true,
+  //       text: "Chart.js Line Chart",
+  //     },
+  //   },
+  // };
 
   // sort data first
   const sortedDataRes = Object.keys(dataRes)
@@ -138,34 +138,40 @@ const Commodities = () => {
     }, {});
   // console.log(sortedDataRes);
 
-  const labels = Object.keys(sortedDataRes);
-  // const labels = ["1", "2", "3"];
-  const chartData = {
-    labels,
-    datasets: [
-      {
-        label: "test1",
-        // data: [1, 2, 3],
-        data: Object.values(sortedDataRes).map((data) => data.rates.SOYBEAN),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-    ],
-  };
+  // const labels = Object.keys(sortedDataRes);
+  // // const labels = ["1", "2", "3"];
+  // const chartData = {
+  //   labels,
+  //   datasets: [
+  //     {
+  //       label: "test1",
+  //       // data: [1, 2, 3],
+  //       data: Object.values(sortedDataRes).map((data) => data.rates.SOYBEAN),
+  //       borderColor: "rgb(255, 99, 132)",
+  //       backgroundColor: "rgba(255, 99, 132, 0.5)",
+  //     },
+  //   ],
+  // };
 
   return (
-    <div className="flex flex-col">
-      Commodities
-      {/* {data?.data.base} */}
-      {/* <button onClick={() => getDailyAPIData()}>Fetch</button> */}
-      {/* <LineChart /> */}
-      {/* {dataRes.map((data) => data.map((result) => <div>{result.date}</div>))} */}
-      {/* {Object.values(dataRes).map((dates) => (
-        <div>{dates.base}</div>
-      ))} */}
-      {/* <Line options={chartOptions} data={chartData} /> */}
-      <LineChart sourceData={sortedDataRes} commodity={"SOYBEAN"} />
-      {/* <Line /> */}
+    <div className="flex flex-col justify-start mx-auto max-w-7xl">
+      <div
+        className="sticky top-0  px-5 py-4 text-xl font-bold
+        "
+      >
+        Dashboard
+      </div>
+      <div className="sm:flex sm:place-content-center  ">
+        <div
+          className="md:grid md:grid-cols-2 md:gap-4 xl:grid-cols-3
+            
+          "
+        >
+          <LineChart sourceData={sortedDataRes} commodity={"SOYBEAN"} />
+          <LineChart sourceData={sortedDataRes} commodity={"PHP"} />
+          <LineChart sourceData={sortedDataRes} commodity={"GBP"} />
+        </div>
+      </div>
     </div>
   );
 };
