@@ -54,11 +54,11 @@ const Commodities = () => {
 
     if (querySnapshot.empty) {
       // if data does not exist, fetch from API
-      console.log("data does not exist");
+      // console.log("data does not exist");
       getDailyAPIData(date);
     } else {
       // if data exists, just load existing data
-      console.log("data exists");
+      // console.log("data exists");
       getData();
     }
   };
@@ -106,7 +106,7 @@ const Commodities = () => {
   };
 
   const getData = async () => {
-    console.log("data: " + dataRes);
+    // console.log("data: " + dataRes);
     const docRef = doc(db, "data", "daily");
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -116,7 +116,7 @@ const Commodities = () => {
     } else console.log("no data found");
   };
 
-  const options = {
+  const chartOptions = {
     responsive: true,
     plugins: {
       legend: {
@@ -129,15 +129,24 @@ const Commodities = () => {
     },
   };
 
-  const labels = Object.keys(dataRes);
+  // sort data first
+  const sortedDataRes = Object.keys(dataRes)
+    .sort()
+    .reduce((obj, key) => {
+      obj[key] = dataRes[key];
+      return obj;
+    }, {});
+  // console.log(sortedDataRes);
+
+  const labels = Object.keys(sortedDataRes);
   // const labels = ["1", "2", "3"];
-  const dataTest = {
+  const chartData = {
     labels,
     datasets: [
       {
         label: "test1",
         // data: [1, 2, 3],
-        data: Object.values(dataRes).map((data) => data.rates.SOYBEAN),
+        data: Object.values(sortedDataRes).map((data) => data.rates.SOYBEAN),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
@@ -154,7 +163,8 @@ const Commodities = () => {
       {/* {Object.values(dataRes).map((dates) => (
         <div>{dates.base}</div>
       ))} */}
-      <Line options={options} data={dataTest} />
+      {/* <Line options={chartOptions} data={chartData} /> */}
+      <LineChart sourceData={sortedDataRes} commodity={"SOYBEAN"} />
       {/* <Line /> */}
     </div>
   );
