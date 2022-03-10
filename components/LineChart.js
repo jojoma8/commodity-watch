@@ -98,19 +98,28 @@ function LineChart({ sourceData, commodity }) {
       const prevPeriodValue =
         Object.values(sourceData)[monthsNumber - 2].rates[commodity];
       const firstPeriodValue = Object.values(sourceData)[0].rates[commodity];
-
-      const prevPeriodPctCh = () => {
-        if (currentValue !== 0) {
-          return ((currentValue / prevPeriodValue - 1) * 100).toFixed(2);
-        }
-      };
-      const fullPeriodPctCh = () => {
-        if (currentValue !== 0) {
-          return ((currentValue / firstPeriodValue - 1) * 100).toFixed(2);
-        }
-      };
     }
   }
+
+  const fullPeriodPctCh = () => {
+    if (typeof currentValue !== "undefined") {
+      if (currentValue !== 0) {
+        return ((currentValue / firstPeriodValue - 1) * 100).toFixed(2);
+      } else {
+        return 0;
+      }
+    } else return 0;
+  };
+
+  const prevPeriodPctCh = () => {
+    if (typeof currentValue !== "undefined") {
+      if (currentValue !== 0) {
+        return ((currentValue / prevPeriodValue - 1) * 100).toFixed(2);
+      } else {
+        return 0;
+      }
+    } else return 0;
+  };
 
   const chartData = {
     labels,
@@ -125,7 +134,7 @@ function LineChart({ sourceData, commodity }) {
     ],
   };
 
-  const textColor = (value) => {
+  const textColor = (value = 0) => {
     if (value > 0) {
       return "text-green-500";
     } else {
